@@ -1,5 +1,15 @@
-# movie_finder
-Updates sent to this branch 7/17/2022 at 3:45pm
-Issue: 10 max count still not working
+#Media Shelf
 
-This branch will be merged with feature/delete-list item branch
+This is a deployed application titled Media Shelf.
+
+Media Shelf is an application that is designed to enable users to search movies and books that may interest them.
+
+Media Shelf allows users to recieve information about any movies or books of interest.
+
+Media Shelf enables users to save desired movies and books that they can revisit at a later time.
+
+Media Shelf also features a grubhub redirection that gives users access to restuarant and delivery services in their area.
+
+Media shelf is free and user friendly.
+
+Deployed Application Link: https://fcarter09.github.io/Media-Shelf/
