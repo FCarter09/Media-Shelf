@@ -63,20 +63,23 @@ body {
 }
 
 /* movie and book title inputs */
-input {
+/* .inputMovie {
     word-wrap: break-word; 
     overflow:auto;
   
-}
+} */
 
-.bookInput{
-   margin-bottom: 9px;
+ /* .inputBook{
+   margin-bottom: 10px;
    margin-top: 10px;
-}
+   /* word-wrap: break-word;  */
+   /* overflow:auto;
+   opacity: 50%; */
+/* } */
 
-.opacity {
+/* .opacity {
     opacity: 50%;
-}
+} */
 
 /*  container and titles for saved movies and books */
 .saved-movie-title, .saved-book-title {
@@ -107,7 +110,7 @@ input {
 }
 
 /* google button */
-.google {
+.googleMovie, .googleBook {
     display: flex;
     justify-content: center;
 }
@@ -143,7 +146,7 @@ footer {
 }
 
 /* remove button for individual list items */
-.singleItemDelete {
+.singleMovieDelete, .singleBookDelete {
     margin-left: 8px;
     background-color: transparent;
     border-color: #f14668;
