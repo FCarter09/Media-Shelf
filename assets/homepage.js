@@ -20,23 +20,22 @@ var deleteBookListBtnEl = document.querySelector(".deleteSavedBooksBtn")
 //grubhub button variable
 var grubHubBtnEl = document.querySelector(".grubhubBtn");
 
-
-
-
-
-//mobile menu
-
-const burgerIcon = document.querySelector('#burger');
-const navbarMenu = document.querySelector('#nav-links');
-
+//local storage global variables
 var savedMoviesList = JSON.parse(localStorage.getItem("SavedMoviesList") || "[]");
 var savedBooksList = JSON.parse(localStorage.getItem("SavedBooksList") || "[]");
 
+//mobile menu
+const burgerIcon = document.querySelector('#burger');
+const navbarMenu = document.querySelector('#nav-links');
 
+
+
+
+
+// eventListener for navbar
 burgerIcon.addEventListener('click', () => {
     navbarMenu.classList.toggle('is-active');
 });
-
 
 
 
@@ -174,6 +173,7 @@ googleMovieBtnEl.addEventListener("click", function () {
  function deleteSingleMovie(movie) {
     return function() {
 
+        // get movie list from local storage
         var moviesList = JSON.parse(localStorage.getItem("SavedMoviesList"));
 
         // Get the index of the movie being deleted from the DOM
@@ -211,28 +211,24 @@ deleteMovieListBtnEl.addEventListener("click", function (){
 
 // eventListener to save movie onto page in 'saved movies' list when 'save' button is clicked
 savebtnMovieEl.addEventListener('click', function () {
+     // Retrieve the saved movies list from local storage
+     var savedMoviesList = JSON.parse(localStorage.getItem("SavedMoviesList")) || [];
                
     // remember, savedMoviesList is an array!
     // limit movies in local storage to 10
-    savedMoviesList = savedMoviesList.slice(0,9)
+      
+      if (savedMoviesList.length < 10) {
+        // Push the new movie title into the savedMoviesList
+        savedMoviesList.push(inputMovieEl.textContent);
 
-    // put data into savedMoviesList local storage
-     savedMoviesList.push(inputMovieEl.textContent)
-        
-    
-    // put movies on page and limit it to 10 movies max 
-    if (savedMoviesUlEl.children.length < 10) {
+        // Add the new movie to the page
+        createMovieList(inputMovieEl.textContent);
 
-        
-        //saves the movie in 'saved movies' list when save button is clicked
-        createMovieList(inputMovieEl.textContent)
-
-    } 
-
-        
-
-    //last, set savedMoviesList into local storage
-    localStorage.setItem("SavedMoviesList", JSON.stringify(savedMoviesList));
+        // Set the updated savedMoviesList into local storage
+        localStorage.setItem("SavedMoviesList", JSON.stringify(savedMoviesList));
+    } else {
+        console.log("Maximum limit reached");
+    }
          
 
 })
@@ -259,25 +255,24 @@ var createMovieList = function(movieTitle) {
       // add event listener for 'remove button' to remove a single movie
       deleteMovieBtn.addEventListener("click", function() {
           
-          // delete selected movie off of page
-          savedMoviesUlEl.removeChild(movieLi); 
+            // delete selected movie off of page
+            savedMoviesUlEl.removeChild(movieLi); 
 
-          var savedMoviesList = JSON.parse(localStorage.getItem("SavedMoviesList"));
+            // get movie list from local storage
+            var savedMoviesList = JSON.parse(localStorage.getItem("SavedMoviesList"));
 
-            // delete selected movie from local storage array using for loop
-            for(var i = 0; i < savedMoviesList.length; i++) {
+            // Find the index of the movie to be removed
+            var index = savedMoviesList.indexOf(movieTitle);
 
-            // Check if savedMoviesList exists and the index is valid
-            if (savedMoviesList[i] === movieTitle) {
+            // Check if the movie is found in the savedMoviesList
+            if (index !== -1) {
                 // Remove the item at the specified index
-                savedMoviesList.splice(i, 1);
-                
-                
+                savedMoviesList.splice(index, 1);
+
                 // Update local storage with the modified array
                 localStorage.setItem("SavedMoviesList", JSON.stringify(savedMoviesList));
-            }    
-        }           
-    })
+            }          
+        })
 }
     
     
@@ -363,6 +358,7 @@ googleBookBtnEl.addEventListener("click", function () {
  function deleteSingleBook(book) {
     return function() {
 
+        // get book list from local storage
         var booksList = JSON.parse(localStorage.getItem("SavedBooksList"));
 
         // Get the index of the movie being deleted from the DOM
@@ -400,29 +396,26 @@ deleteBookListBtnEl.addEventListener("click", function (){
 
 // saves book in 'saved books' list and local storage when button is clicked
 savebtnBookEl.addEventListener("click", function() {
-    console.log(inputBookEl.textContent);
+    // console.log(inputBookEl.textContent);
 
     //SAVE BOOK IN LOCAL STORAGE -->
-
-     
-    // limit books in local storage to 10
-    savedBooksList = savedBooksList.slice(0,9)
-
-    // put data into savedBooksList local storage
-    savedBooksList.push(inputBookEl.textContent)
-
+    // Retrieve the saved movies list from local storage
+    var savedBooksList = JSON.parse(localStorage.getItem("SavedBooksList")) || [];
     
-    // put books on page and limit it to 10 books max 
-    if (savedBooksUlEl.children.length < 10) {
-        //saves the movie in 'saved books' list when save button is clicked
-        createBookList(inputBookEl.textContent)
+    if (savedBooksList.length < 10) {
+        // Push the new book title into the savedBooksList
+        savedBooksList.push(inputBookEl.textContent);
 
+        // Add the new book to the page
+        createBookList(inputBookEl.textContent);
+
+        // Set the updated savedBooksList into local storage
+        localStorage.setItem("SavedBooksList", JSON.stringify(savedBooksList));
+
+    } else {
+
+        console.log("Maximum limit reached");
     }
-
-        
-
-    //last, set savedBooksList into local storage
-    localStorage.setItem("SavedBooksList", JSON.stringify(savedBooksList));
 
 })
 
@@ -450,20 +443,20 @@ function createBookList(bookTitle){
             // delete selected books off of page
             savedBooksUlEl.removeChild(bookLi); 
 
+            // get book list from local storage
             var savedBooksList = JSON.parse(localStorage.getItem("SavedBooksList"));
 
-            // delete selected book from local storage array using for loop
-            for(var i = 0; i < savedBooksList.length; i++) {
+            // Find the index of the movie to be removed
+            var index = savedBooksList.indexOf(bookTitle);
 
-            // Check if savedBooksList exists and the index is valid
-            if (savedBooksList[i] === bookTitle) {
+            // Check if the movie is found in the savedMoviesList
+            if (index !== -1) {
                 // Remove the item at the specified index
-                savedBooksList.splice(i, 1);
-                
+                savedBooksList.splice(index, 1);
+
                 // Update local storage with the modified array
                 localStorage.setItem("SavedBooksList", JSON.stringify(savedBooksList));
-            }    
-        } 
+            }  
             
         })
 
