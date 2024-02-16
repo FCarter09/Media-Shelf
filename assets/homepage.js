@@ -17,8 +17,8 @@ var savebtnBookEl = document.querySelector(".saveBook")
 var savedBooksUlEl = document.querySelector(".savedBooks")
 var deleteBookListBtnEl = document.querySelector(".deleteSavedBooksBtn")
 
-//food button variable
-var foodSearchBtnEl = document.querySelector(".grubhubBtn");
+//grubhub button variable
+var grubHubBtnEl = document.querySelector(".grubhubBtn");
 
 
 
@@ -30,7 +30,7 @@ const burgerIcon = document.querySelector('#burger');
 const navbarMenu = document.querySelector('#nav-links');
 
 var savedMoviesList = JSON.parse(localStorage.getItem("SavedMoviesList") || "[]");
-// var savedBooksList = JSON.parse(localStorage.getItem("booksList") || "[]");
+var savedBooksList = JSON.parse(localStorage.getItem("SavedBooksList") || "[]");
 
 
 burgerIcon.addEventListener('click', () => {
@@ -65,34 +65,40 @@ function onPageLoad() {
     for (var i = 0; i < savedMovies.length; i++) {
             //console.log(savedMovies);
 
-            var li = document.createElement("li");
-            li.classList.add('movie')
-            li.appendChild(document.createTextNode(savedMovies[i]));
+            var movieLi = document.createElement("li");
+            movieLi.classList.add('movie')
+            movieLi.appendChild(document.createTextNode(savedMovies[i]));
             var deleteMovieBtn = document.createElement("button")
             deleteMovieBtn.className = "singleMovieDelete"
             deleteMovieBtn.textContent = "Remove"
-            li.appendChild(deleteMovieBtn)
-            savedMoviesUlEl.appendChild(li);
+            movieLi.appendChild(deleteMovieBtn)
+            savedMoviesUlEl.appendChild(movieLi);
 
             
             // add event listener for 'remove button' to remove a single movie
-            deleteMovieBtn.addEventListener("click", deleteSingleMovie(li))     
+            deleteMovieBtn.addEventListener("click", deleteSingleMovie(movieLi))     
     }
             
-          // // gets 'booksList' data from localstorage. This is an array 
-            // var savedBooks = JSON.parse(localStorage.getItem("booksList") || "[]");
-            //         console.log(savedBooks);
+            // gets 'SavedBooksList' data from localstorage. This is an array 
+            var savedBooks = JSON.parse(localStorage.getItem("SavedBooksList") || "[]");
+                    // console.log(savedBooks);
 
-            //     for (var i = 0; i < savedBooks.length; i++) {
-            //         console.log(savedBooks);
+                for (var i = 0; i < savedBooks.length; i++) {
+                    // console.log(savedBooks);
 
-
-            //     //loads books in "saved books list"
-            //     deleteBtn(savedBooks[i])
-
-            //     }
-                
-
+                    var bookLi = document.createElement("li");
+                    bookLi.classList.add('book')
+                    bookLi.appendChild(document.createTextNode(savedBooks[i]));
+                    var deleteBookBtn = document.createElement("button")
+                    deleteBookBtn.className = "singleBookDelete"
+                    deleteBookBtn.textContent = "Remove"
+                    bookLi.appendChild(deleteBookBtn)
+                    savedBooksUlEl.appendChild(bookLi);
+        
+                    
+                    // add event listener for 'remove button' to remove a single book
+                    deleteBookBtn.addEventListener("click", deleteSingleBook(bookLi))  
+                }
     }  
 
  
@@ -124,7 +130,7 @@ function randomIndex(array) {
 
 
 // fetch function for randomly generating movie title 
-var fetchFunction = function () {
+var movieFetchFunction = function () {
 
     fetch(movieAPI())
         .then(response => response.json())
@@ -144,7 +150,7 @@ var fetchFunction = function () {
 
 // Search button function to call fetch function to get a generated movie every click
 generateMovieBtnEl.addEventListener("click", function () {
-    fetchFunction();
+    movieFetchFunction();
     inputMovieEl.classList.remove("opacity")
 })
 
@@ -195,7 +201,7 @@ googleMovieBtnEl.addEventListener("click", function () {
 //delete movie List(Deletes all movies)
 deleteMovieListBtnEl.addEventListener("click", function (){
     savedMoviesUlEl.innerHTML = "";
-    window.localStorage.removeItem("SavedMoviesList");
+    localStorage.removeItem("SavedMoviesList");
 
 });
 
@@ -211,15 +217,17 @@ savebtnMovieEl.addEventListener('click', function () {
     savedMoviesList = savedMoviesList.slice(0,9)
 
     // put data into savedMoviesList local storage
-    savedMoviesList.push(inputMovieEl.textContent)
-
+     savedMoviesList.push(inputMovieEl.textContent)
+        
     
     // put movies on page and limit it to 10 movies max 
     if (savedMoviesUlEl.children.length < 10) {
+
+        
         //saves the movie in 'saved movies' list when save button is clicked
         createMovieList(inputMovieEl.textContent)
 
-    }
+    } 
 
         
 
@@ -233,39 +241,37 @@ savebtnMovieEl.addEventListener('click', function () {
  
  
 
-
-
 // creates movie list using dom elements with delete button for each saved movie
 var createMovieList = function(movieTitle) {
-
-    
      
       //saves the movie in 'saved movies' list
-      var li = document.createElement("li");
-      li.classList.add('movie')
-      li.appendChild(document.createTextNode(movieTitle));
+      var movieLi = document.createElement("li");
+      movieLi.classList.add('movie')
+      movieLi.appendChild(document.createTextNode(movieTitle));
       var deleteMovieBtn = document.createElement("button")
       deleteMovieBtn.className = "singleMovieDelete"
       deleteMovieBtn.textContent = "Remove"
-      li.appendChild(deleteMovieBtn)
-      savedMoviesUlEl.appendChild(li);
+      movieLi.appendChild(deleteMovieBtn)
+      savedMoviesUlEl.appendChild(movieLi);
     
     
       
       // add event listener for 'remove button' to remove a single movie
       deleteMovieBtn.addEventListener("click", function() {
-        
-
-          savedMoviesUlEl.removeChild(li); 
+          
+          // delete selected movie off of page
+          savedMoviesUlEl.removeChild(movieLi); 
 
           var savedMoviesList = JSON.parse(localStorage.getItem("SavedMoviesList"));
 
+            // delete selected movie from local storage array using for loop
             for(var i = 0; i < savedMoviesList.length; i++) {
 
             // Check if savedMoviesList exists and the index is valid
             if (savedMoviesList[i] === movieTitle) {
                 // Remove the item at the specified index
                 savedMoviesList.splice(i, 1);
+                
                 
                 // Update local storage with the modified array
                 localStorage.setItem("SavedMoviesList", JSON.stringify(savedMoviesList));
@@ -282,28 +288,52 @@ var createMovieList = function(movieTitle) {
 // BOOK SECTION
 // BOOK SECTION
 
+
+
 //rapidAPI key / host
 const options = {
     method: 'GET',
     headers: {
-        'X-RapidAPI-Key': '61329c8183msh78cc9d6cf80b668p1997dajsn80542530576b',
-        'X-RapidAPI-Host': 'bookshelves.p.rapidapi.com'
+         'X-RapidAPI-Key': '76dec4ed41msh4a6682e49aa991cp1ee729jsn06ef7b1369f7',
+        'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com'
     }
 };
 
 //fetch function for generating random book
 var bookFetchFunction = function () {
-    fetch('https://bookshelves.p.rapidapi.com/books', options)
-        .then(response => response.json())
-        .then(response => {
-            // console.log(response.results[0])
-            inputBookEl.textContent = response.Books[Math.floor(Math.random() * 37)].title
-            
-            console.log(response.Books[Math.floor(Math.random() * 37)].title)
-            
-        })
-        .catch(err => console.error(err));
-    }
+    // Make a fetch request to get a random book
+    fetch(`https://book-finder1.p.rapidapi.com/api/search?&results_per_page=100&page=1`, options)
+    .then(response => response.json())
+    .then(response => {
+       // Log the response to the console
+       // console.log(response);
+
+       // Check if the array of 'results' in the response contains any books
+       if ( response.results.length > 0) {
+
+        // Extract titles from the 'results' response and make it a new array called 'titles'
+        const titles = response.results.map(book => book.title);
+           
+        // Log the titles to the console
+        // console.log(titles);
+
+        // Get a random book title from the array of titles
+        const randomBookIndex = Math.floor(Math.random() * titles.length);
+        const randomBookTitle = titles[randomBookIndex];
+
+
+        // Display the random book title in the inputBookEl element
+        inputBookEl.textContent = randomBookTitle;
+
+       } else {
+           console.error('No books found in the response');
+       }
+        
+    })
+    .catch(err => console.error(err));
+}
+
+
     
     
 
@@ -328,70 +358,113 @@ googleBookBtnEl.addEventListener("click", function () {
 
 
 
+ // function to be called in 'addEventListner' inside of the for loop in the 'onPageLoad() function' 
+ // this deletes a single book in the 'saved books' list and deletes the book from local storage after the page loads 
+ function deleteSingleBook(book) {
+    return function() {
+
+        var booksList = JSON.parse(localStorage.getItem("SavedBooksList"));
+
+        // Get the index of the movie being deleted from the DOM
+        var index = Array.from(book.parentNode.children).indexOf(book);
+
+        // Check if index is valid
+        if (index !== -1) {
+            // Remove the movie from the DOM
+            book.parentNode.removeChild(book);
+
+            // Remove the corresponding movie from the array in local storage
+            booksList.splice(index, 1);
+
+            // Update local storage with the modified array
+            localStorage.setItem("SavedBooksList", JSON.stringify(booksList));
+
+         
+        }
+    }
+ }
+
+
+
+
+
 //delete book list(deletes all books)
 deleteBookListBtnEl.addEventListener("click", function (){
     savedBooksUlEl.innerHTML = "";
-    window.localStorage.removeItem('booksList');
+    localStorage.removeItem('SavedBooksList');
 
 });
 
 
 
 
-
-var bookKey = 0
-
+// saves book in 'saved books' list and local storage when button is clicked
 savebtnBookEl.addEventListener("click", function() {
     console.log(inputBookEl.textContent);
 
     //SAVE BOOK IN LOCAL STORAGE -->
 
-    //get data in local storage
-    // var savedBooksList = JSON.parse(localStorage.getItem("booksList") || "[]");
-        // console.log("Saved Books List", savedBooksList);
+     
+    // limit books in local storage to 10
+    savedBooksList = savedBooksList.slice(0,9)
+
+    // put data into savedBooksList local storage
+    savedBooksList.push(inputBookEl.textContent)
+
     
-    // // we only want 10 Books on the Book list. IF there are more than 10, no more should be added
-    // //check how many books are in the list
-    if  (bookKey >= 10) {
+    // put books on page and limit it to 10 books max 
+    if (savedBooksUlEl.children.length < 10) {
+        //saves the movie in 'saved books' list when save button is clicked
+        createBookList(inputBookEl.textContent)
 
-        bookKey = bookKey.slice(0,0) // slice: this prevents item(book) to be added to array after 10 items
+    }
 
-     }else{
-        // next, need to put data into savedBooksList
-        // remember, savedBooksList is an array!
-        savedBooksList.push(inputBookEl.textContent)
+        
 
-        //saves the book in 'saved books' list when save button is clicked
-        deleteBookBtn(inputBookEl.textContent)
-
-         //last, set savedBooksList into local storage
-        localStorage.setItem("booksList", JSON.stringify(savedBooksList));
-
-     }
+    //last, set savedBooksList into local storage
+    localStorage.setItem("SavedBooksList", JSON.stringify(savedBooksList));
 
 })
 
 
 
 
+// creates book list using dom elements with delete button for each saved book
+function createBookList(bookTitle){
 
-function deleteBookBtn(bookTitle){
          //saves the book in 'saved books' list
-        var li = document.createElement("li");
+        var bookLi = document.createElement("li");
+        bookLi.classList.add('book')
         var deleteBookBtn = document.createElement("button")
-        deleteBookBtn.className = "singleItemDelete"
+        deleteBookBtn.className = "singleBookDelete"
         deleteBookBtn.textContent = "Remove"
   
-        li.appendChild(document.createTextNode(bookTitle));
-        li.appendChild(deleteBookBtn)
-        savedBooksUlEl.appendChild(li);
-        bookKey++ 
+        bookLi.appendChild(document.createTextNode(bookTitle));
+        bookLi.appendChild(deleteBookBtn)
+        savedBooksUlEl.appendChild(bookLi);
+        
         
         // add event listener for 'remove button' to remove a single book
         deleteBookBtn.addEventListener("click", function() {
-            savedBooksUlEl.removeChild(li); 
-            var filteredBooks =  savedBooksList.filter((name)=> name !== bookTitle)
-            localStorage.setItem("booksList", JSON.stringify(filteredBooks));
+
+            // delete selected books off of page
+            savedBooksUlEl.removeChild(bookLi); 
+
+            var savedBooksList = JSON.parse(localStorage.getItem("SavedBooksList"));
+
+            // delete selected book from local storage array using for loop
+            for(var i = 0; i < savedBooksList.length; i++) {
+
+            // Check if savedBooksList exists and the index is valid
+            if (savedBooksList[i] === bookTitle) {
+                // Remove the item at the specified index
+                savedBooksList.splice(i, 1);
+                
+                // Update local storage with the modified array
+                localStorage.setItem("SavedBooksList", JSON.stringify(savedBooksList));
+            }    
+        } 
+            
         })
 
 }
@@ -401,7 +474,7 @@ function deleteBookBtn(bookTitle){
 
 
 //grubhub button event listener to redirect to grubhub
-foodSearchBtnEl.addEventListener("click", function() {
+grubHubBtnEl.addEventListener("click", function() {
      window.open("https://grubhub.com"); 
 
  })

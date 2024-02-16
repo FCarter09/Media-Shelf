@@ -62,24 +62,6 @@ body {
 
 }
 
-/* movie and book title inputs */
-/* .inputMovie {
-    word-wrap: break-word; 
-    overflow:auto;
-  
-} */
-
- /* .inputBook{
-   margin-bottom: 10px;
-   margin-top: 10px;
-   /* word-wrap: break-word;  */
-   /* overflow:auto;
-   opacity: 50%; */
-/* } */
-
-/* .opacity {
-    opacity: 50%;
-} */
 
 /*  container and titles for saved movies and books */
 .saved-movie-title, .saved-book-title {
@@ -88,12 +70,6 @@ body {
     justify-content: center;
 }
 
-.saved-movies, .saved-books {
-    border-bottom: 1px solid black;
-    width: fit-content;
-    display: flex;
-
-}
 
 /* movie and book note */
 .note-movie-container, .note-book-container {
