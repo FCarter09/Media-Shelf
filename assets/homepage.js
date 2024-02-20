@@ -209,29 +209,86 @@ deleteMovieListBtnEl.addEventListener("click", function (){
 
 
 
-// eventListener to save movie onto page in 'saved movies' list when 'save' button is clicked
-savebtnMovieEl.addEventListener('click', function () {
-     // Retrieve the saved movies list from local storage
-     var savedMoviesList = JSON.parse(localStorage.getItem("SavedMoviesList")) || [];
-               
-    // remember, savedMoviesList is an array!
-    // limit movies in local storage to 10
-      
-      if (savedMoviesList.length < 10) {
-        // Push the new movie title into the savedMoviesList
-        savedMoviesList.push(inputMovieEl.textContent);
+    // eventListener to save movie onto page in 'saved movies' list when 'save' button is clicked
+    savebtnMovieEl.addEventListener('click', function () {
+        
+        // Retrieve the saved movies list from local storage
+        var savedMoviesList = JSON.parse(localStorage.getItem("SavedMoviesList")) || [];
 
-        // Add the new movie to the page
-        createMovieList(inputMovieEl.textContent);
 
-        // Set the updated savedMoviesList into local storage
-        localStorage.setItem("SavedMoviesList", JSON.stringify(savedMoviesList));
-    } else {
-        console.log("Maximum limit reached");
-    }
-         
+        
+        // Get the movie title from the input element
+        var movieName = inputMovieEl.textContent;
 
-})
+
+
+         // Check if the movie title is empty
+         if (movieName.trim() === '') {
+            // console.log("Please enter a movie name");
+
+            // notify user to search for a movie 
+            var noMovieNote = document.querySelector('.no-movie-note')
+            noMovieNote.textContent = "Please search for a movie suggestion!"
+            
+            // make message disappear after 2 seconds
+            setTimeout(() => {
+                noMovieNote.textContent = ""
+            }, 2000);
+
+            return; // Stop execution if the movie name is empty
+        }
+
+
+
+          // Check for duplicates in savedMoviesList(local storage) and on page
+          if (savedMoviesList.includes(movieName)) {
+            // console.log("Movie already saved");
+
+            // notify user the movie is already saved
+            var savedMovieNote = document.querySelector('.duplicate-movie-note')
+            savedMovieNote.textContent = "This movie is already saved!"
+            
+            // make message disappear after 2 seconds
+            setTimeout(() => {
+                savedMovieNote.textContent = ""
+            }, 2000);
+
+            
+            return; // Stop execution if the movie is already saved       
+        }
+
+     
+
+        // remember, savedMoviesList is an array!
+        // limit movies on the page and in local storage to 10
+        if (savedMoviesList.length < 10) {
+
+
+            // Push the new movie title into the savedMoviesList
+            savedMoviesList.push(movieName);
+
+            // Add the new movie to the page
+            createMovieList(movieName);
+
+            // Set the updated savedMoviesList into local storage
+            localStorage.setItem("SavedMoviesList", JSON.stringify(savedMoviesList));
+        } else {
+            // console.log("Maximum limit reached");
+
+            // notify user the max amount of movies have been reached
+            var maxMovieNote = document.querySelector('.movie-max-note')
+            maxMovieNote.textContent = "Maximum amount of movies reached. Must delete a movie to save another movie!"
+
+            // make message disappear after 2 seconds
+            setTimeout(() => {
+                
+                maxMovieNote.textContent = ''
+                
+            }, 3000);
+        }
+            
+
+    })
 
 
  
@@ -401,20 +458,76 @@ savebtnBookEl.addEventListener("click", function() {
     //SAVE BOOK IN LOCAL STORAGE -->
     // Retrieve the saved movies list from local storage
     var savedBooksList = JSON.parse(localStorage.getItem("SavedBooksList")) || [];
-    
+
+
+
+    // Get the movie title from the input element
+    var bookName = inputBookEl.textContent;
+
+
+
+    // Check if the movie title is empty
+    if (bookName.trim() === '') {
+        // console.log("Please enter a book name");
+
+        // notify user to search for a book
+        var noBookNote = document.querySelector('.no-book-note')
+        noBookNote.textContent = "Please search for a book suggestion!"
+        
+        // make message disappear after 2 seconds
+        setTimeout(() => {
+            noBookNote.textContent = ""
+        }, 2000);
+
+        return; // Stop execution if the book name is empty
+    }
+
+
+
+    // Check for duplicates in savedBooksList(local storage) and on page
+    if (savedBooksList.includes(bookName)) {
+        // console.log("Book already saved");
+
+        // notify user the book is already saved
+        var savedBookNote = document.querySelector('.duplicate-book-note')
+        savedBookNote.textContent = "This book is already saved!"
+        
+        // make message disappear after 2 seconds
+        setTimeout(() => {
+            savedBookNote.textContent = ""
+        }, 2000);
+
+        
+        return; // Stop execution if the book is already saved       
+    }
+
+
+
+    // limit amount of books on the page and in the savedBooksList(local storage) to 10
     if (savedBooksList.length < 10) {
         // Push the new book title into the savedBooksList
-        savedBooksList.push(inputBookEl.textContent);
+        savedBooksList.push(bookName);
 
         // Add the new book to the page
-        createBookList(inputBookEl.textContent);
+        createBookList(bookName);
 
         // Set the updated savedBooksList into local storage
         localStorage.setItem("SavedBooksList", JSON.stringify(savedBooksList));
 
     } else {
 
-        console.log("Maximum limit reached");
+        // console.log("Maximum limit reached");
+
+        // notify user the max amount of movies have been reached
+        var maxBookNote = document.querySelector('.book-max-note')
+        maxBookNote.textContent = "Maximum amount of books reached. Must delete a movie to save another book!"
+
+        // make message disappear after 2 seconds
+        setTimeout(() => {
+            
+            maxBookNote.textContent = ''
+            
+        }, 3000);
     }
 
 })

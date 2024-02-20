@@ -73,6 +73,10 @@
         </div>
     </section>
 
+
+
+<!-- MOVIE SECTION -->
+
   <!--movie background image container-->
   <div class="movie-image-container">""</div>
         
@@ -89,9 +93,16 @@
             <h3>Your Suggestion Awaits....</h3>
         </div>
 
+        <p class="no-movie-note">
+
+            <!-- put message here to notify user to search for a movie before saving with dom created message-->
+
+        </p>
+        
+
         <div class="level-item">
             <div class="field has-addons">
-                <p class="control input inputMovie opacity ">
+                <p class=" box inputMovie opacity " id = "movieTitle">
                    
 
                 </p>
@@ -131,10 +142,21 @@
         <h3><b>Note:</b> Only 10 movies max can be saved!</h3>
     </div>
 
+    <p class="duplicate-movie-note">
+
+        <!-- notify user if movie has already been saved here with dom created message -->
+
+    </p>
+    <p class="movie-max-note">
+
+        <!-- put message here to notify user movies are at the max amount with dom created message -->
+
+    </p>
+
     <!--unordered list for saved movies-->
-    <div class="movie-container">
-        <div class="box has-text-centered">
-            <ul class="savedMovies"></ul>
+    <div class="container saved-section has-text-centered">
+        <div class="box has-text-centered mt-3">
+            <ul class="savedMovies has-text-centered"></ul>
         </div>
     </div>
 
@@ -144,6 +166,9 @@
     </div>
 
     
+
+    <!-- BOOK SECTION -->
+
     <!--book background image container-->
     <div class="book-image-container">""</div>
 
@@ -160,9 +185,15 @@
             <h3>Your Suggestion Awaits....</h3>
         </div>
 
+        <p class="no-book-note">
+
+            <!-- put message here to notify user to search for a book before saving with dom created message -->
+
+        </p>
+
         <div class="level-item">
             <div class="field has-addons">
-            <p class="control input inputBook opacity">
+            <p class="box inputBook opacity" id="bookTitle">
                     
 
                 </p>
@@ -202,6 +233,16 @@
     <div class="note-book-container">
         <h3><b>Note:</b> Only 10 books max can be saved!</h3>
     </div>
+    <p class="duplicate-book-note">
+
+        <!-- notify user if book has already been saved here with dom created message -->
+
+    </p>
+    <p class="book-max-note">
+
+        <!-- put message here to notify user books are at the max amount with dom created message -->
+
+    </p>
 
     <!--unorderedlist for saved books-->
     <div class="container saved-section has-text-centered">
