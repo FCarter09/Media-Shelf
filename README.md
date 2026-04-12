@@ -1,4 +1,4 @@
-#Media Shelf
+# Media Shelf
 
 This is a deployed application titled Media Shelf.
 
@@ -10,6 +10,11 @@ Media Shelf enables users to save desired movies and books that they can revisit
 
 Media Shelf also features a grubhub redirection that gives users access to restuarant and delivery services in their area.
 
-Media shelf is free and user friendly.
+## Live Demo
+
+Demo: https://www.dropbox.com/preview/Project%20Portfolio%20Live%20Demos/MediaShelfDemo.mp4?role=personal
+
+
+## Deployed Application
 
 Deployed Application Link: https://fcarter09.github.io/Media-Shelf/
