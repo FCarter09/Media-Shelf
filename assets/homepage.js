@@ -69,7 +69,7 @@ function onPageLoad() {
             movieLi.appendChild(document.createTextNode(savedMovies[i]));
             var deleteMovieBtn = document.createElement("button")
             deleteMovieBtn.className = "singleMovieDelete"
-            deleteMovieBtn.textContent = "Remove"
+            deleteMovieBtn.textContent = "X"
             movieLi.appendChild(deleteMovieBtn)
             savedMoviesUlEl.appendChild(movieLi);
 
@@ -91,7 +91,7 @@ function onPageLoad() {
                     bookLi.appendChild(document.createTextNode(savedBooks[i]));
                     var deleteBookBtn = document.createElement("button")
                     deleteBookBtn.className = "singleBookDelete"
-                    deleteBookBtn.textContent = "Remove"
+                    deleteBookBtn.textContent = "X"
                     bookLi.appendChild(deleteBookBtn)
                     savedBooksUlEl.appendChild(bookLi);
         
@@ -262,7 +262,7 @@ var createMovieList = function(movieTitle) {
       movieLi.appendChild(document.createTextNode(movieTitle));
       var deleteMovieBtn = document.createElement("button")
       deleteMovieBtn.className = "singleMovieDelete"
-      deleteMovieBtn.textContent = "Remove"
+      deleteMovieBtn.textContent = "X"
       movieLi.appendChild(deleteMovieBtn)
       savedMoviesUlEl.appendChild(movieLi);
     
@@ -349,7 +349,7 @@ const options = {
     method: 'GET',
     headers: {
          'X-RapidAPI-Key': '76dec4ed41msh4a6682e49aa991cp1ee729jsn06ef7b1369f7',
-        'X-RapidAPI-Host': 'goodreads-books.p.rapidapi.com'
+        'X-RapidAPI-Host': 'hapi-books.p.rapidapi.com'
     }
 };
 
@@ -358,33 +358,29 @@ var bookFetchFunction = function () {
     // Make a fetch request to get a random book
    
     
-    fetch(`https://goodreads-books.p.rapidapi.com/lists/200`, options)
+    fetch(`https://hapi-books.p.rapidapi.com/top_authors`, options)
     .then(response => response.json())
     .then(response => {
-       // Log the response to the console
-       console.log(response);
+        
+          // Make sure the response is an array and it has at least one item
+        if (!Array.isArray(response) || response.length === 0) {
+            console.error("No books found");
+            return;
+        }
 
-            // items(response.items)is the array of books found in the api response
-            const items = response.items;
+        // Pick a random index between 0 and the last item in the array
+        const randomIndex = Math.floor(Math.random() * response.length);
 
-            // Check that items is a non-empty array
-            if (!Array.isArray(items) || items.length === 0) {
-                console.error('No books found in the response');
-                return;
-            }
+        // Use that index to select a random author object from the array
+        const randomBook = response[randomIndex];
 
-            // Pick a random book
-            const randomIndex = Math.floor(Math.random() * items.length);
-            const randomBook = items[randomIndex];
+        // Log ONLY the selected book (not the whole array)
+        console.log(randomBook);
 
-            // Get the title
-            const randomBookTitle = randomBook.title;
-
-            console.log("Random book title:", randomBookTitle);
-
-            // Display it
-            inputBookEl.textContent = randomBookTitle;
-        })
+        // Display the author's most popular book and their name in the UI
+        inputBookEl.textContent = randomBook.popular_book_title;
+    })
+      
         .catch(err => console.error(err));
 }
 
@@ -478,8 +474,6 @@ savebtnBookEl.addEventListener("click", function() {
 
     } else {
 
-        // console.log("Maximum limit reached");
-
         // notify user the max amount of movies have been reached
         var maxBookNote = document.querySelector('.book-max-note')
         maxBookNote.textContent = "Maximum amount of books reached. Must delete a movie to save another book!"
@@ -505,7 +499,7 @@ function createBookList(bookTitle){
         bookLi.classList.add('book')
         var deleteBookBtn = document.createElement("button")
         deleteBookBtn.className = "singleBookDelete"
-        deleteBookBtn.textContent = "Remove"
+        deleteBookBtn.textContent = "X"
   
         bookLi.appendChild(document.createTextNode(bookTitle));
         bookLi.appendChild(deleteBookBtn)

@@ -121,11 +121,19 @@ footer {
     justify-content: center !important;
 }
 
+.arrow {
+
+    padding-left: 3px;
+
+}
+
 /* remove button for individual list items */
 .singleMovieDelete, .singleBookDelete {
     margin-left: 8px;
+    font-weight: bold;
+    font-style: italic;
     background-color: transparent;
-    border-color: #f14668;
+    border-color: transparent;
     color: #f14668;
     border-width: 1px;
     cursor: pointer;
