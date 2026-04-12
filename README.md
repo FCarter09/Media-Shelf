@@ -12,7 +12,7 @@ Media Shelf also features a grubhub redirection that gives users access to restu
 
 ## Live Demo
 
-Demo: https://www.dropbox.com/preview/Project%20Portfolio%20Live%20Demos/MediaShelfDemo.mp4?role=personal
+Demo: https://www.dropbox.com/scl/fi/lzyy1jeetjqxfu1pyt8py/MediaShelfDemo.mp4?rlkey=wab37nma1zc9ffeh18xoxugn3&st=lzk33q7b&dl=0
 
 
 ## Deployed Application
